@@ -61,6 +61,9 @@
       "inlineStyle": true,
       "inlineTemplate": true
     },
+    "service": {
+      "spec": false
+    },
     "schematics": {
       "collection": "@ngrx/schematics"
     }

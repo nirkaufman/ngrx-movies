@@ -1,24 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Authenticate} from '../models/user';
 
 @Component({
   selector: 'sign-in',
   template: `
     <div class="text-center">
       <div class="sign-in-container">
-        <form class="form-signin">
+        <form class="form-signin" (ngSubmit)="authSubmit.next(userAuth)">
           <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
           <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-          <label for="inputEmail" class="sr-only">Email address</label>
-          <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-          <label for="inputPassword" class="sr-only">Password</label>
-          <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-          <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" value="remember-me"> Remember me
-            </label>
-          </div>
+          <label class="sr-only">Email address</label>
+          <input type="email" class="form-control" name="username" placeholder="Email address" [(ngModel)]="userAuth.username" autofocus>
+          <label class="sr-only">Password</label>
+          <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="userAuth.password">
           <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-          <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
         </form>
       </div>
     </div>
@@ -44,9 +39,11 @@ import { Component, OnInit } from '@angular/core';
       padding: 15px;
       margin: 0 auto;
     }
+
     .form-signin .checkbox {
       font-weight: 400;
     }
+
     .form-signin .form-control {
       position: relative;
       box-sizing: border-box;
@@ -54,14 +51,17 @@ import { Component, OnInit } from '@angular/core';
       padding: 10px;
       font-size: 16px;
     }
+
     .form-signin .form-control:focus {
       z-index: 2;
     }
+
     .form-signin input[type="email"] {
       margin-bottom: -1px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
     }
+
     .form-signin input[type="password"] {
       margin-bottom: 10px;
       border-top-left-radius: 0;
@@ -70,11 +70,12 @@ import { Component, OnInit } from '@angular/core';
 
   `]
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent  {
 
-  constructor() { }
+  @Output() authSubmit = new EventEmitter<Authenticate>();
 
-  ngOnInit() {
-  }
-
+  public userAuth: Authenticate = {
+    username: '',
+    password: ''
+  };
 }

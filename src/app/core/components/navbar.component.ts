@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'navbar',
@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container">
           <a class="navbar-brand" href="#">My Movie Collection</a>
+
+          <span class="navbar-text" (click)="logout.emit()">Logout</span>
 
           <!-- Begin Search -->
           <form class="form-inline">
@@ -20,6 +22,8 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class NavbarComponent implements OnInit {
+
+  @Output() logout = new EventEmitter();
 
   constructor() { }
 

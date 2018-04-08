@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromCore from '../reducers/core.reducer';
 import * as fromRoot from '../../reducers/index';
+import * as fromAuth from '../../auth/reducers/auth.reducer';
+
 import {Observable} from 'rxjs/Observable';
+import {Logout} from '../../auth/actions/auth.actions';
 
 @Component({
   selector: 'app',
   template: `
-    <navbar></navbar>
+    <navbar *ngIf="loggedIn | async" (logout)="logout()"></navbar>
     <page-layout>
       <router-outlet></router-outlet>
       <loader *ngIf="loading | async"></loader>
@@ -23,11 +26,17 @@ import {Observable} from 'rxjs/Observable';
 export class AppComponent implements OnInit {
   loading: Observable<boolean>;
   notifications: Observable<string[]>;
+  loggedIn: Observable<boolean>;
 
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.loading = this.store.pipe(select(fromCore.getLoading));
     this.notifications = this.store.pipe(select(fromCore.getNotifications));
+    this.loggedIn = this.store.pipe(select(fromAuth.getLoogedIn));
+  }
+
+  logout() {
+    this.store.dispatch(new Logout());
   }
 }
