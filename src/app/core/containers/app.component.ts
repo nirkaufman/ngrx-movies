@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import * as fromCore from '../reducers/core.reducer';
+import * as fromRoot from '../../reducers/index';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app',
@@ -6,9 +10,9 @@ import { Component, OnInit } from '@angular/core';
     <navbar></navbar>
     <page-layout>
       <router-outlet></router-outlet>
-      <loader></loader>
+      <loader *ngIf="loading | async"></loader>
 
-      <snackbar></snackbar>
+      <snackbar *ngFor="let notification of notifications | async" [message]="notification"></snackbar>
 
     </page-layout>
 
@@ -17,10 +21,13 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class AppComponent implements OnInit {
+  loading: Observable<boolean>;
+  notifications: Observable<string[]>;
 
-  constructor() { }
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
+    this.loading = this.store.pipe(select(fromCore.getLoading));
+    this.notifications = this.store.pipe(select(fromCore.getNotifications));
   }
-
 }

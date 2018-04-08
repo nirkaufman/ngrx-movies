@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'snackbar',
   template: `
-    <div id="snackbar" class="show">Some text some message..</div>
+    <div id="snackbar" class="show">{{ message }}</div>
   `,
   styles: [`
     #snackbar {
@@ -51,6 +51,8 @@ import { Component, OnInit } from '@angular/core';
   `]
 })
 export class SnackbarComponent implements OnInit {
+
+  @Input() message: string;
 
   constructor() { }
 

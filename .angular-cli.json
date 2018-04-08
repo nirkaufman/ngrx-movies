@@ -56,10 +56,13 @@
   "defaults": {
     "styleExt": "css",
     "component": {
-      "inlineStyle": true,
-      "inlineTemplate": true,
+      "flat": true,
       "spec": false,
-      "flat": true
+      "inlineStyle": true,
+      "inlineTemplate": true
+    },
+    "schematics": {
+      "collection": "@ngrx/schematics"
     }
   }
 }
