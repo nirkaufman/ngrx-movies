@@ -1,7 +1,6 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {AuthActions, AuthActionTypes} from '../actions/auth.actions';
 import {User} from '../models/user';
-import {resolveDefinition} from '@angular/core/src/view/util';
 
 export interface State {
   loggedIn: boolean;
@@ -9,7 +8,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  loggedIn: false,
+  loggedIn: true,
   user: null
 };
 

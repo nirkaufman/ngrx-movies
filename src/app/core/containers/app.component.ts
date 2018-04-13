@@ -6,11 +6,12 @@ import * as fromAuth from '../../auth/reducers/auth.reducer';
 
 import {Observable} from 'rxjs/Observable';
 import {Logout} from '../../auth/actions/auth.actions';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app',
   template: `
-    <navbar *ngIf="loggedIn | async" (logout)="logout()"></navbar>
+    <navbar *ngIf="loggedIn | async" (logout)="logout()" (collection)="showCollection()"></navbar>
     <page-layout>
       <router-outlet></router-outlet>
       <loader *ngIf="loading | async"></loader>
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
   notifications: Observable<string[]>;
   loggedIn: Observable<boolean>;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private store: Store<fromRoot.State>, private router: Router) {}
 
   ngOnInit() {
     this.loading = this.store.pipe(select(fromCore.getLoading));
@@ -39,4 +40,9 @@ export class AppComponent implements OnInit {
   logout() {
     this.store.dispatch(new Logout());
   }
+
+  showCollection() {
+    this.router.navigateByUrl('movies/collection');
+  }
+
 }

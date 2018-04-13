@@ -9,6 +9,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
           <a class="navbar-brand" href="#">My Movie Collection</a>
 
           <span class="navbar-text" (click)="logout.emit()">Logout</span>
+          <span class="navbar-text" (click)="collection.emit()">collection</span>
 
           <!-- Begin Search -->
           <form class="form-inline">
@@ -24,6 +25,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 export class NavbarComponent implements OnInit {
 
   @Output() logout = new EventEmitter();
+  @Output() collection = new EventEmitter();
 
   constructor() { }
 

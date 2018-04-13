@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import * as fromMovies from '../reducers/movies.reducer';
+import {select, Store} from '@ngrx/store';
+import * as fromRoot from '../../reducers';
+import {Movie} from '../models/movie';
+import {AddMovieToCollection} from '../actions/movie-collection.actions';
 
 @Component({
   selector: 'movie-details',
@@ -6,32 +11,37 @@ import { Component, OnInit } from '@angular/core';
     <div class="row">
       <div class="col-sm-4 offset-4">
         <div class="card">
-          <img class="card-img-top" src="assets/1.jpg">
+          <img class="card-img-top" [src]="movie.Poster">
             <div class="card-body">
-            <h5 class="card-title">The Matrix</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Released: 31 Mar 1999</h6>
+            <h5 class="card-title">{{movie.Title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Released: {{movie.Released}}</h6>
             <p class="card-text">
-              A computer hacker learns from mysterious rebels about the true nature of his reality and
-              his role in the war against its controllers.
+              {{movie.Plot}}
             </p>
             <p class="card-text">
               <small class="text-muted">
-                <strong>Runtime:</strong> 136 min | <strong>Language</strong>: English
+                <strong>Runtime:</strong> {{movie.Runtime}} | <strong>Language</strong>: {{movie.Language}}
               </small>
             </p>
-            <a href="#" class="btn btn-primary">Add</a>
+            <button (click)="addMovie()" class="btn btn-primary">Add</button>
           </div>
         </div>
       </div>
     </div>
   `,
-  styles: []
 })
 export class MovieDetailsComponent implements OnInit {
+  movie: Movie;
 
-  constructor() { }
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
+    this.store.pipe(select(fromMovies.getSelectedMovie))
+      .subscribe( movie => this.movie = movie);
+  }
+
+  addMovie() {
+    this.store.dispatch(new AddMovieToCollection(this.movie));
   }
 
 }
